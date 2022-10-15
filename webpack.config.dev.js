@@ -1,7 +1,8 @@
 const path = require("path");
 const HtmlWebpackPlugin=require("html-webpack-plugin");
 const MiniCssExtractPlugin=require("mini-css-extract-plugin");
-const DotEnv=require("dotenv-webpack")
+const DotEnv=require("dotenv-webpack");
+const BundleAnalyzerPlugin=require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 module.exports = {
     entry:"./src/index.js",
@@ -11,7 +12,8 @@ module.exports = {
         clean:true,
     },
     mode:"development",
-    watch:true,
+    // watch:true,
+    devtool:"source-map",
     resolve:{
         extensions:[".js"],
         alias:{
@@ -63,5 +65,13 @@ module.exports = {
             filename:"styles/[name].css",
         }),
         new DotEnv(),
+        new BundleAnalyzerPlugin(),
     ],
+    devServer: {
+		static: path.join(__dirname, 'dist'),
+		compress: true,
+		historyApiFallback: true,
+		port: 8080,
+		open: true,
+	}
 }
